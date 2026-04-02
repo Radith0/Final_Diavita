@@ -202,4 +202,4 @@ This project is licensed under the MIT License.
 You can download the retinal models from the following link: 
 https://drive.google.com/drive/folders/16fX49oJk_vWMFtFzt2YxBTOfP1-Jvk3-?usp=drive_link
 
-After downloading, place all model files inside the following directory:
+After downloading, place all model files inside the following directory:backend/models/retinal/weights
