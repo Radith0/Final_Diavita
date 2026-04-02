@@ -196,3 +196,10 @@ If port 5000 is in use, the backend runs on port 5001 by default.
 ## 📄 License
 
 This project is licensed under the MIT License.
+
+## 🧠 Retinal Model Setup
+
+You can download the retinal models from the following link: 
+https://drive.google.com/drive/folders/16fX49oJk_vWMFtFzt2YxBTOfP1-Jvk3-?usp=drive_link
+
+After downloading, place all model files inside the following directory:
