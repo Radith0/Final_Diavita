@@ -1,0 +1,246 @@
+.progress-page {
+  min-height: calc(100vh - 70px);
+  background: #f5f7fa;
+  padding: 32px 24px;
+}
+
+.progress-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.loading, .no-plan-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  gap: 16px;
+  text-align: center;
+}
+
+.no-plan-message h2 {
+  color: #1a1a1a;
+  margin: 16px 0 8px;
+}
+
+.no-plan-message p {
+  color: #666;
+  margin-bottom: 24px;
+}
+
+/* Plan Header */
+.plan-header-card {
+  background: white;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 40px;
+}
+
+.plan-title-section h1 {
+  font-size: 32px;
+  color: #1a1a1a;
+  margin-bottom: 8px;
+}
+
+.plan-title-section p {
+  color: #666;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.progress-circle {
+  flex-shrink: 0;
+}
+
+/* Progress Grid */
+.progress-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.milestones-card, .update-progress-card, .outcomes-card {
+  background: white;
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.milestones-card h2, .update-progress-card h2, .outcomes-card h2 {
+  font-size: 22px;
+  color: #1a1a1a;
+  margin-bottom: 24px;
+}
+
+.milestones-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.milestone-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  background: #f9fafb;
+  border-radius: 12px;
+  border-left: 4px solid #e0e0e0;
+  transition: all 0.3s ease;
+}
+
+.milestone-item.completed {
+  background: #e8f5e9;
+  border-left-color: #4CAF50;
+}
+
+.milestone-content {
+  flex: 1;
+}
+
+.milestone-content h4 {
+  font-size: 16px;
+  color: #1a1a1a;
+  margin-bottom: 4px;
+}
+
+.milestone-content span {
+  font-size: 13px;
+  color: #999;
+}
+
+/* Update Progress */
+.update-progress-card p {
+  color: #666;
+  margin-bottom: 24px;
+}
+
+.progress-input-group {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.progress-input-group input {
+  flex: 1;
+  padding: 14px 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+}
+
+.progress-input-group input:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.update-btn {
+  padding: 14px 28px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.update-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+}
+
+.update-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.stats-row {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px;
+  background: #f9fafb;
+  border-radius: 10px;
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #666;
+  font-size: 14px;
+}
+
+.stat svg {
+  color: #667eea;
+}
+
+/* Outcomes */
+.outcomes-card {
+  grid-column: 1 / -1;
+}
+
+.outcome-content {
+  padding: 24px;
+  background: linear-gradient(135deg, #667eea10 0%, #764ba210 100%);
+  border-radius: 12px;
+  border: 2px solid #667eea40;
+}
+
+.outcome-content p {
+  font-size: 18px;
+  color: #667eea;
+  font-weight: 600;
+  margin: 0;
+  text-align: center;
+}
+
+.cta-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 32px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+}
+
+@media (max-width: 768px) {
+  .plan-header-card {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .progress-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .outcomes-card {
+    grid-column: 1;
+  }
+
+  .progress-input-group {
+    flex-direction: column;
+  }
+}

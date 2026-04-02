@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diabetes Prediction App — Test Report</title>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: #f0f2f5;
+    color: #2c3e50;
+    line-height: 1.6;
+    padding: 40px 20px;
+  }
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+    padding: 40px 48px;
+  }
+
+  /* Header */
+  .header {
+    margin-bottom: 32px;
+  }
+  .header h1 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 6px;
+  }
+  .header h1 .icon {
+    margin-right: 8px;
+  }
+  .header .meta {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: #7f8c8d;
+    font-size: 14px;
+  }
+  .overall-badge {
+    display: inline-block;
+    padding: 4px 18px;
+    border-radius: 20px;
+    color: #fff;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    background: #27ae60;
+  }
+
+  /* Summary Cards */
+  .summary-cards {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+  }
+  .card {
+    flex: 1;
+    min-width: 120px;
+    background: #f8f9fb;
+    border-radius: 12px;
+    padding: 20px 16px;
+    text-align: center;
+    border: 1px solid #eef0f4;
+  }
+  .card .value {
+    font-size: 36px;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 4px;
+  }
+  .card .label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #95a5a6;
+  }
+  .val-total { color: #2c3e50; }
+  .val-passed { color: #27ae60; }
+  .val-failed { color: #e74c3c; }
+  .val-errors { color: #e67e22; }
+  .val-skipped { color: #95a5a6; }
+  .val-rate { color: #27ae60; }
+
+  .duration-card {
+    display: inline-block;
+    background: #f8f9fb;
+    border-radius: 12px;
+    padding: 18px 28px;
+    text-align: center;
+    border: 1px solid #eef0f4;
+    margin-bottom: 32px;
+  }
+  .duration-card .value {
+    font-size: 30px;
+    font-weight: 800;
+    color: #2c3e50;
+    line-height: 1.1;
+    margin-bottom: 2px;
+  }
+  .duration-card .label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #95a5a6;
+  }
+
+  /* Suite Summary */
+  .section-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #f0f2f5;
+  }
+  .suite-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 36px;
+  }
+  .suite-table th {
+    text-align: left;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #95a5a6;
+    padding: 10px 14px;
+    border-bottom: 2px solid #eef0f4;
+  }
+  .suite-table td {
+    padding: 14px 14px;
+    font-size: 14px;
+    border-bottom: 1px solid #f4f5f7;
+    vertical-align: middle;
+  }
+  .suite-table tr:last-child td {
+    border-bottom: none;
+  }
+  .suite-table .suite-name {
+    font-weight: 600;
+    color: #2c3e50;
+  }
+  .suite-table .num-passed { color: #27ae60; font-weight: 700; }
+  .suite-table .num-failed { color: #e74c3c; font-weight: 700; }
+  .suite-table .num-errors { color: #e67e22; font-weight: 700; }
+  .suite-table .num-skipped { color: #95a5a6; font-weight: 700; }
+  .suite-table .num-time { color: #7f8c8d; }
+
+  .progress-bar {
+    display: flex;
+    width: 100%;
+    min-width: 140px;
+    height: 18px;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #eef0f4;
+  }
+  .progress-passed { background: #27ae60; }
+  .progress-failed { background: #e74c3c; }
+  .progress-error { background: #e67e22; }
+  .progress-skipped { background: #95a5a6; }
+
+  /* All Test Results */
+  .results-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .results-table th {
+    text-align: left;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #95a5a6;
+    padding: 10px 12px;
+    border-bottom: 2px solid #eef0f4;
+  }
+  .results-table th:last-child {
+    text-align: right;
+  }
+  .results-table td {
+    padding: 10px 12px;
+    font-size: 13.5px;
+    border-bottom: 1px solid #f4f5f7;
+    vertical-align: middle;
+  }
+  .results-table tr:hover {
+    background: #fafbfc;
+  }
+  .suite-cell {
+    font-size: 13.5px;
+    color: #2c3e50;
+  }
+  .class-cell {
+    color: #7f8c8d;
+    font-size: 13px;
+  }
+  .name-cell {
+    color: #34495e;
+    font-weight: 500;
+  }
+  .time-cell {
+    text-align: right;
+    color: #95a5a6;
+    font-size: 13px;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  /* Badges */
+  .badge {
+    display: inline-block;
+    padding: 3px 12px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    min-width: 64px;
+    text-align: center;
+  }
+  .badge-passed {
+    background: #d4edda;
+    color: #155724;
+  }
+  .badge-failed {
+    background: #f8d7da;
+    color: #721c24;
+  }
+  .badge-error {
+    background: #fff3cd;
+    color: #856404;
+  }
+  .badge-skipped {
+    background: #e2e8f0;
+    color: #4a5568;
+  }
+
+  .results-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #f0f2f5;
+  }
+  .results-header h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1a1a2e;
+  }
+  .results-count {
+    font-size: 15px;
+    color: #95a5a6;
+    font-weight: 600;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <!-- Header -->
+  <div class="header">
+    <h1><span class="icon">🧪</span>Diabetes Prediction App &mdash; Test Report</h1>
+    <div class="meta">
+      Generated on April 02, 2026 at 12:46 PM
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <span class="overall-badge">PASSED</span>
+    </div>
+  </div>
+
+  <!-- Summary Cards -->
+  <div class="summary-cards">
+    <div class="card">
+      <div class="value val-total">69</div>
+      <div class="label">Total Tests</div>
+    </div>
+    <div class="card">
+      <div class="value val-passed">69</div>
+      <div class="label">Passed</div>
+    </div>
+    <div class="card">
+      <div class="value val-failed">0</div>
+      <div class="label">Failed</div>
+    </div>
+    <div class="card">
+      <div class="value val-errors">0</div>
+      <div class="label">Errors</div>
+    </div>
+    <div class="card">
+      <div class="value val-skipped">0</div>
+      <div class="label">Skipped</div>
+    </div>
+    <div class="card">
+      <div class="value val-rate">100.0%</div>
+      <div class="label">Pass Rate</div>
+    </div>
+  </div>
+
+  <div class="duration-card">
+    <div class="value">5.59s</div>
+    <div class="label">Duration</div>
+  </div>
+
+  <!-- Suite Summary -->
+  <div class="section-title">Suite Summary</div>
+  <table class="suite-table">
+    <thead>
+      <tr>
+        <th>Suite</th>
+        <th>Passed</th>
+        <th>Failed</th>
+        <th>Errors</th>
+        <th>Skipped</th>
+        <th>Time</th>
+        <th>Progress</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="suite-name">Backend (pytest)</td>
+        <td class="num-passed">59</td>
+        <td class="num-failed">0</td>
+        <td class="num-errors">0</td>
+        <td class="num-skipped">0</td>
+        <td class="num-time">5.52s</td>
+        <td><div class="progress-bar">
+            <div class="progress-passed" style="width:100.0%"></div>
+            <div class="progress-failed" style="width:0.0%"></div>
+            <div class="progress-error" style="width:0.0%"></div>
+            <div class="progress-skipped" style="width:0.0%"></div>
+        </div></td>
+      </tr>
+      <tr>
+        <td class="suite-name">Frontend (vitest)</td>
+        <td class="num-passed">10</td>
+        <td class="num-failed">0</td>
+        <td class="num-errors">0</td>
+        <td class="num-skipped">0</td>
+        <td class="num-time">0.07s</td>
+        <td><div class="progress-bar">
+            <div class="progress-passed" style="width:100.0%"></div>
+            <div class="progress-failed" style="width:0.0%"></div>
+            <div class="progress-error" style="width:0.0%"></div>
+            <div class="progress-skipped" style="width:0.0%"></div>
+        </div></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- All Test Results -->
+  <div class="results-header">
+    <h2>All Test Results (69)</h2>
+  </div>
+  <table class="results-table">
+    <thead>
+      <tr>
+        <th>Status</th>
+        <th>Suite</th>
+        <th>Class / File</th>
+        <th>Test Name</th>
+        <th style="text-align:right">Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_auth_routes.TestRegister</td>
+            <td class="name-cell">test_register_success</td>
+            <td class="time-cell">0.210s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_auth_routes.TestRegister</td>
+            <td class="name-cell">test_register_missing_fields</td>
+            <td class="time-cell">0.000s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_auth_routes.TestRegister</td>
+            <td class="name-cell">test_register_duplicate_username</td>
+            <td class="time-cell">0.200s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_auth_routes.TestRegister</td>
+            <td class="name-cell">test_register_duplicate_email</td>
+            <td class="time-cell">0.220s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_auth_routes.TestRegister</td>
+            <td class="name-cell">test_register_invalid_role</td>
+            <td class="time-cell">0.000s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_auth_routes.TestRegister</td>
+            <td class="name-cell">test_register_admin_role</td>
+            <td class="time-cell">0.200s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_auth_routes.TestLogin</td>
+            <td class="name-cell">test_login_success</td>
+            <td class="time-cell">0.410s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_auth_routes.TestLogin</td>
+            <td class="name-cell">test_login_wrong_password</td>
+            <td class="time-cell">0.400s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_auth_routes.TestLogin</td>
+            <td class="name-cell">test_login_nonexistent_user</td>
+            <td class="time-cell">0.000s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_auth_routes.TestLogin</td>
+            <td class="name-cell">test_login_missing_fields</td>
+            <td class="time-cell">0.000s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_auth_routes.TestHealthCheck</td>
+            <td class="name-cell">test_health_check</td>
+            <td class="time-cell">0.000s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_auth_routes.TestProtectedRoutes</td>
+            <td class="name-cell">test_access_with_valid_token</td>
+            <td class="time-cell">0.400s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_auth_routes.TestProtectedRoutes</td>
+            <td class="name-cell">test_access_without_token</td>
+            <td class="time-cell">0.000s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_auth_routes.TestProtectedRoutes</td>
+            <td class="name-cell">test_access_with_invalid_token</td>
+            <td class="time-cell">0.000s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_jwt_utils.TestCreateAccessToken</td>
+            <td class="name-cell">test_returns_token_and_expiry</td>
+            <td class="time-cell">0.000s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_jwt_utils.TestCreateAccessToken</td>
+            <td class="name-cell">test_token_contains_user_info</td>
+            <td class="time-cell">0.000s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_jwt_utils.TestCreateAccessToken</td>
+            <td class="name-cell">test_token_has_expiration</td>
+            <td class="time-cell">0.000s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_jwt_utils.TestVerifyToken</td>
+            <td class="name-cell">test_valid_token</td>
+            <td class="time-cell">0.000s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_jwt_utils.TestVerifyToken</td>
+            <td class="name-cell">test_expired_token</td>
+            <td class="time-cell">0.000s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_jwt_utils.TestVerifyToken</td>
+            <td class="name-cell">test_invalid_token_string</td>
+            <td class="time-cell">0.000s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_jwt_utils.TestVerifyToken</td>
+            <td class="name-cell">test_tampered_token</td>
+            <td class="time-cell">0.000s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_jwt_utils.TestVerifyToken</td>
+            <td class="name-cell">test_empty_token</td>
+            <td class="time-cell">0.000s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_risk_scorer.TestGetRiskLevel</td>
+            <td class="name-cell">test_low_risk</td>
+            <td class="time-cell">0.000s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_risk_scorer.TestGetRiskLevel</td>
+            <td class="name-cell">test_moderate_risk</td>
+            <td class="time-cell">0.000s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_risk_scorer.TestGetRiskLevel</td>
+            <td class="name-cell">test_high_risk</td>
+            <td class="time-cell">0.000s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_risk_scorer.TestGetRiskLevel</td>
+            <td class="name-cell">test_very_high_risk</td>
+            <td class="time-cell">0.000s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_risk_scorer.TestCalculateConfidence</td>
+            <td class="name-cell">test_base_confidence</td>
+            <td class="time-cell">0.000s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_risk_scorer.TestCalculateConfidence</td>
+            <td class="name-cell">test_retinal_data_increases_confidence</td>
+            <td class="time-cell">0.000s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_risk_scorer.TestCalculateConfidence</td>
+            <td class="name-cell">test_many_lifestyle_factors_increase_confidence</td>
+            <td class="time-cell">0.000s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_risk_scorer.TestCalculateConfidence</td>
+            <td class="name-cell">test_borderline_score_decreases_confidence</td>
+            <td class="time-cell">0.000s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_risk_scorer.TestCalculateConfidence</td>
+            <td class="name-cell">test_confidence_capped_at_095</td>
+            <td class="time-cell">0.000s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_risk_scorer.TestCalculateConfidence</td>
+            <td class="name-cell">test_confidence_floor_at_050</td>
+            <td class="time-cell">0.000s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_risk_scorer.TestAssess</td>
+            <td class="name-cell">test_assess_returns_expected_keys</td>
+            <td class="time-cell">0.000s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_risk_scorer.TestAssess</td>
+            <td class="name-cell">test_assess_low_risk</td>
+            <td class="time-cell">0.000s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_risk_scorer.TestAssess</td>
+            <td class="name-cell">test_assess_very_high_risk</td>
+            <td class="time-cell">0.000s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_simulation_agent.TestSimulateWeightLoss</td>
+            <td class="name-cell">test_returns_correct_structure</td>
+            <td class="time-cell">0.000s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_simulation_agent.TestSimulateWeightLoss</td>
+            <td class="name-cell">test_projected_risk_is_lower</td>
+            <td class="time-cell">0.000s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_simulation_agent.TestSimulateWeightLoss</td>
+            <td class="name-cell">test_projected_risk_not_negative</td>
+            <td class="time-cell">0.000s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_simulation_agent.TestSimulateIncreasedActivity</td>
+            <td class="name-cell">test_returns_correct_structure</td>
+            <td class="time-cell">0.000s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_simulation_agent.TestSimulateIncreasedActivity</td>
+            <td class="name-cell">test_projected_risk_not_negative</td>
+            <td class="time-cell">0.000s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_simulation_agent.TestSimulateBetterSleep</td>
+            <td class="name-cell">test_returns_correct_structure</td>
+            <td class="time-cell">0.000s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_simulation_agent.TestSimulateHealthyDiet</td>
+            <td class="name-cell">test_returns_correct_structure</td>
+            <td class="time-cell">0.000s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_simulation_agent.TestExecute</td>
+            <td class="name-cell">test_execute_high_bmi</td>
+            <td class="time-cell">0.000s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_simulation_agent.TestExecute</td>
+            <td class="name-cell">test_execute_always_includes_diet</td>
+            <td class="time-cell">0.000s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_simulation_agent.TestExecute</td>
+            <td class="name-cell">test_execute_best_scenario</td>
+            <td class="time-cell">0.000s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_simulation_agent.TestExecute</td>
+            <td class="name-cell">test_execute_with_empty_data</td>
+            <td class="time-cell">0.000s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_simulation_agent.TestExecute</td>
+            <td class="name-cell">test_execute_smoker</td>
+            <td class="time-cell">0.000s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_user_model.TestUserModel</td>
+            <td class="name-cell">test_create_user</td>
+            <td class="time-cell">0.200s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_user_model.TestUserModel</td>
+            <td class="name-cell">test_password_is_hashed</td>
+            <td class="time-cell">0.200s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_user_model.TestUserModel</td>
+            <td class="name-cell">test_check_password_correct</td>
+            <td class="time-cell">0.400s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_user_model.TestUserModel</td>
+            <td class="name-cell">test_check_password_incorrect</td>
+            <td class="time-cell">0.400s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_user_model.TestUserModel</td>
+            <td class="name-cell">test_set_password_changes_hash</td>
+            <td class="time-cell">0.400s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_user_model.TestUserModel</td>
+            <td class="name-cell">test_is_admin_true</td>
+            <td class="time-cell">0.200s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_user_model.TestUserModel</td>
+            <td class="name-cell">test_is_admin_false</td>
+            <td class="time-cell">0.200s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_user_model.TestUserModel</td>
+            <td class="name-cell">test_to_dict</td>
+            <td class="time-cell">0.200s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_user_model.TestUserModel</td>
+            <td class="name-cell">test_to_dict_sensitive</td>
+            <td class="time-cell">0.200s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_user_model.TestUserModel</td>
+            <td class="name-cell">test_to_dict_no_sensitive</td>
+            <td class="time-cell">0.200s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_user_model.TestUserModel</td>
+            <td class="name-cell">test_unique_username</td>
+            <td class="time-cell">0.400s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Backend</strong></td>
+            <td class="class-cell">tests.test_user_model.TestUserModel</td>
+            <td class="name-cell">test_unique_email</td>
+            <td class="time-cell">0.400s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Frontend</strong></td>
+            <td class="class-cell">src/test/App.test.jsx</td>
+            <td class="name-cell">App Routing > renders the home page at /</td>
+            <td class="time-cell">0.057s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Frontend</strong></td>
+            <td class="class-cell">src/test/App.test.jsx</td>
+            <td class="name-cell">App Routing > renders the login page at /login</td>
+            <td class="time-cell">0.005s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Frontend</strong></td>
+            <td class="class-cell">src/test/App.test.jsx</td>
+            <td class="name-cell">App Routing > redirects /dashboard to /login when not authenticated</td>
+            <td class="time-cell">0.006s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Frontend</strong></td>
+            <td class="class-cell">src/test/auth.test.js</td>
+            <td class="name-cell">isAuthenticated > returns false when no token exists</td>
+            <td class="time-cell">0.001s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Frontend</strong></td>
+            <td class="class-cell">src/test/auth.test.js</td>
+            <td class="name-cell">isAuthenticated > returns true when token exists</td>
+            <td class="time-cell">0.000s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Frontend</strong></td>
+            <td class="class-cell">src/test/auth.test.js</td>
+            <td class="name-cell">getStoredUser > returns null when no user stored</td>
+            <td class="time-cell">0.000s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Frontend</strong></td>
+            <td class="class-cell">src/test/auth.test.js</td>
+            <td class="name-cell">getStoredUser > returns parsed user object when stored</td>
+            <td class="time-cell">0.001s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Frontend</strong></td>
+            <td class="class-cell">src/test/auth.test.js</td>
+            <td class="name-cell">isAdmin > returns false when no user stored</td>
+            <td class="time-cell">0.000s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Frontend</strong></td>
+            <td class="class-cell">src/test/auth.test.js</td>
+            <td class="name-cell">isAdmin > returns false for normal user</td>
+            <td class="time-cell">0.000s</td>
+        </tr>
+<tr>
+            <td><span class="badge badge-passed">PASSED</span></td>
+            <td class="suite-cell"><strong>Frontend</strong></td>
+            <td class="class-cell">src/test/auth.test.js</td>
+            <td class="name-cell">isAdmin > returns true for admin user</td>
+            <td class="time-cell">0.000s</td>
+        </tr>
+
+    </tbody>
+  </table>
+</div>
+</body>
+</html>

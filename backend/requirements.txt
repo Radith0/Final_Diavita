@@ -1,0 +1,32 @@
+# Core Framework
+flask
+flask-cors
+python-dotenv
+
+# Authentication & Security
+flask-jwt-extended
+bcrypt
+psycopg2-binary
+flask-sqlalchemy
+
+# AI/ML Libraries (essential only - remove unused)
+scikit-learn
+tensorflow== 2.20.0
+keras==3.13.1
+# xgboost  # Not needed - using scikit-learn's GradientBoostingClassifier instead
+opencv-python
+pillow
+numpy==2.2.6
+pandas
+joblib
+
+# LLM Integration (minimal - only what we use)
+requests
+aiohttp
+
+# PDF Generation
+reportlab
+
+# Utilities
+pytest
+pytest-asyncio

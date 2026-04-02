@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+venv/
+.venv/
+env/
+ENV/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Environment
+.env
+.env.local
+
+# Logs
+logs/*.log
+
+# Tests
+.pytest_cache/
+tests/
+*.coverage
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Documentation
+README.md
+*.md
+
+# Model training notebooks
+models/**/*.ipynb
+
+# Uploads (will be mounted as volume)
+uploads/*
+
+# Batch files
+*.bat

@@ -1,0 +1,463 @@
+.plan-selection-page {
+  min-height: calc(100vh - 70px);
+  background: #f5f7fa;
+  padding: 40px 24px;
+}
+
+.plan-selection-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.success-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px 32px;
+  background: #e8f5e9;
+  border: 2px solid #4CAF50;
+  border-radius: 12px;
+  color: #2e7d32;
+  font-weight: 600;
+  margin-bottom: 32px;
+  font-size: 16px;
+}
+
+.page-header h1 {
+  font-size: 36px;
+  color: #1a1a1a;
+  margin-bottom: 12px;
+}
+
+.page-header p {
+  font-size: 18px;
+  color: #666;
+  margin-bottom: 16px;
+}
+
+.current-risk-badge {
+  display: inline-block;
+  padding: 10px 20px;
+  background: #fff;
+  border: 2px solid #e0e0e0;
+  border-radius: 24px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #667eea;
+}
+
+.plans-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.plan-template-card {
+  background: white;
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 3px solid transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.plan-template-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+}
+
+.plan-template-card.selected {
+  border-color: #667eea;
+  box-shadow: 0 12px 32px rgba(102, 126, 234, 0.2);
+}
+
+.plan-icon-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.plan-template-card h3 {
+  font-size: 22px;
+  color: #1a1a1a;
+  margin-bottom: 12px;
+}
+
+.plan-desc {
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 24px;
+  font-size: 15px;
+}
+
+.plan-meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px;
+  background: #f9fafb;
+  border-radius: 8px;
+}
+
+.meta-label {
+  font-size: 12px;
+  color: #999;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.meta-value {
+  font-size: 15px;
+  color: #1a1a1a;
+  font-weight: 600;
+}
+
+.expected-outcome {
+  width: 100%;
+  padding: 12px;
+  background: #e8f5e9;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #2e7d32;
+  margin-bottom: 16px;
+}
+
+.expected-outcome strong {
+  color: #1b5e20;
+}
+
+.select-plan-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 28px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  margin-top: auto;
+}
+
+.select-plan-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+}
+
+.select-plan-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.plan-note {
+  text-align: center;
+  padding: 24px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.plan-note p {
+  margin: 0;
+  color: #666;
+  font-size: 15px;
+}
+
+/* Personalized Plans Styles */
+.risk-summary-banner {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  padding: 1rem 2rem;
+  background: white;
+  border-radius: 12px;
+  margin-top: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.risk-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.risk-label {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.risk-value {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #1a1a1a;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+}
+
+.generating-plans {
+  text-align: center;
+  background: white;
+  padding: 3rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.generating-plans h2 {
+  color: #1a1a1a;
+  margin: 1rem 0 0.5rem;
+}
+
+.generating-plans p {
+  color: #666;
+}
+
+.generating-plans .loading-icon {
+  animation: pulse 2s infinite;
+  color: #667eea;
+  margin-bottom: 1rem;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.1); }
+}
+
+.plan-template-card {
+  position: relative;
+}
+
+.priority-badge {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  z-index: 10;
+}
+
+.priority-critical {
+  background: linear-gradient(135deg, #ff4757, #ff6b7a);
+  color: white;
+  animation: pulse-critical 2s infinite;
+}
+
+.priority-high {
+  background: linear-gradient(135deg, #ff9800, #ffb74d);
+  color: white;
+}
+
+.priority-medium {
+  background: linear-gradient(135deg, #2196f3, #64b5f6);
+  color: white;
+}
+
+.priority-recommended {
+  background: linear-gradient(135deg, #4caf50, #81c784);
+  color: white;
+}
+
+@keyframes pulse-critical {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.4); }
+  50% { box-shadow: 0 0 0 10px rgba(255, 71, 87, 0); }
+}
+
+.plan-template-card.critical-priority {
+  border: 3px solid rgba(255, 71, 87, 0.3);
+  background: linear-gradient(135deg, rgba(255, 71, 87, 0.02), white);
+}
+
+.personalized-goals {
+  margin: 1rem 0;
+  padding: 0.75rem;
+  background: #f0f4ff;
+  border-radius: 8px;
+  border-left: 3px solid #667eea;
+  width: 100%;
+  text-align: left;
+}
+
+.personalized-goals strong {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #667eea;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.personalized-goals ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.personalized-goals li {
+  padding: 0.25rem 0;
+  font-size: 0.9rem;
+  color: #333;
+  position: relative;
+  padding-left: 1rem;
+}
+
+.personalized-goals li:before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: #667eea;
+}
+
+.llm-recommendations {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background: #fdf4ff;
+  border-radius: 8px;
+  border-left: 3px solid #9c27b0;
+  width: 100%;
+  text-align: left;
+}
+
+.llm-recommendations strong {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #9c27b0;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.rec-item {
+  font-size: 0.85rem;
+  color: #555;
+  line-height: 1.4;
+  margin: 0.25rem 0;
+  padding-left: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .page-header h1 {
+    font-size: 28px;
+  }
+
+  .plans-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .risk-summary-banner {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+
+/* What-If Scenarios Styles */
+.what-if-scenarios {
+  width: 100%;
+  margin: 1rem 0;
+  padding: 1rem;
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  border-radius: 10px;
+  border: 1px solid #bfdbfe;
+}
+
+.what-if-scenarios strong {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #1e40af;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.75rem;
+}
+
+.scenarios-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.scenario-item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  background: white;
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+
+.scenario-item .timeline {
+  font-weight: 600;
+  color: #64748b;
+  white-space: nowrap;
+}
+
+.scenario-item .new-risk {
+  font-weight: 700;
+  font-size: 1rem;
+  white-space: nowrap;
+}
+
+.scenario-item .change {
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.scenario-item .change.negative {
+  color: #16a34a;
+}
+
+.scenario-item .change.neutral {
+  color: #64748b;
+}
+
+.scenario-item .scenario-desc {
+  color: #475569;
+  font-size: 0.8rem;
+  line-height: 1.2;
+  flex: 1 1 100%;
+}
+
+.priority-low {
+  background: linear-gradient(135deg, #94a3b8, #cbd5e1);
+  color: white;
+}

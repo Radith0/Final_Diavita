@@ -1,0 +1,18 @@
+{
+  "retinal_weight": 0.11393846660227452,
+  "lifestyle_weight": 0.8860615333977255,
+  "best_loss": 0.023164474500205,
+  "method": "Scipy Optimization_optimized",
+  "calibration": "lifestyle_calibrated",
+  "constraint": "w1 + w2 = 1",
+  "validation": {
+    "method_used": "Scipy Optimization",
+    "training_samples": 1000
+  },
+  "performance": {
+    "retinal_standalone_accuracy": 0.8335193005540508,
+    "lifestyle_standalone_accuracy": 0.9054394341688076,
+    "lifestyle_calibrated_accuracy": 0.9443750752110257,
+    "fused_accuracy_estimate": 0.976835525499795
+  }
+}

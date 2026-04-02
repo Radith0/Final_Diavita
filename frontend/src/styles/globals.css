@@ -1,0 +1,342 @@
+/*
+  Diabetes Detection AI - Global Styles
+  Medical-inspired aesthetic with depth and atmosphere
+*/
+
+:root {
+  /* Medical Blue-Green Palette - inspired by surgical scrubs and medical imaging */
+  --primary-deep: #0A3D62;      /* Deep teal - trust and medical authority */
+  --primary-main: #1B6B93;      /* Medical blue */
+  --primary-light: #4A9FBD;     /* Light cyan */
+
+  --accent-warm: #E85D75;       /* Coral red - vitality, blood flow */
+  --accent-alert: #FF6B6B;      /* Alert red */
+  --accent-success: #2ECC71;    /* Success green */
+  --accent-warning: #F39C12;    /* Warning amber */
+
+  /* Neutral medical grays - inspired by X-ray and diagnostic imagery */
+  --bg-primary: #F8FAFB;
+  --bg-secondary: #E8ECEF;
+  --bg-tertiary: #D4DBE0;
+
+  --text-primary: #1A2332;
+  --text-secondary: #4A5568;
+  --text-tertiary: #718096;
+  --text-inverse: #FFFFFF;
+
+  /* Depth and atmosphere */
+  --shadow-sm: 0 2px 8px rgba(10, 61, 98, 0.08);
+  --shadow-md: 0 4px 16px rgba(10, 61, 98, 0.12);
+  --shadow-lg: 0 8px 32px rgba(10, 61, 98, 0.16);
+  --shadow-xl: 0 16px 48px rgba(10, 61, 98, 0.24);
+
+  /* Glass morphism for modern medical UI */
+  --glass-bg: rgba(248, 250, 251, 0.85);
+  --glass-border: rgba(10, 61, 98, 0.12);
+
+  /* Typography scale */
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body: 'Crimson Pro', serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+
+  /* Spacing rhythm (8px base) */
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+  --space-4: 2rem;
+  --space-6: 3rem;
+  --space-8: 4rem;
+
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  overflow-x: hidden;
+
+  /* Atmospheric background with medical imaging aesthetic */
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(27, 107, 147, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(232, 93, 117, 0.03) 0%, transparent 50%),
+    linear-gradient(135deg, #F8FAFB 0%, #E8ECEF 100%);
+  background-attachment: fixed;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+h1 {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+h2 {
+  font-size: clamp(2rem, 4vw, 3rem);
+}
+
+h3 {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+}
+
+p {
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+
+.text-mono {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  letter-spacing: 0.02em;
+}
+
+/* Scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar (webkit) */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-main);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-deep);
+}
+
+/* Selection */
+::selection {
+  background: var(--primary-light);
+  color: var(--text-inverse);
+}
+
+/* Focus styles */
+:focus-visible {
+  outline: 2px solid var(--primary-main);
+  outline-offset: 3px;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Utility classes */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-3);
+}
+
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+}
+
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: var(--space-4);
+  box-shadow: var(--shadow-md);
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.animate-in {
+  animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) backwards;
+}
+
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+.stagger-5 { animation-delay: 0.5s; }
+
+/* Medical grid pattern background */
+.medical-grid {
+  background-image:
+    linear-gradient(rgba(10, 61, 98, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(10, 61, 98, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* Diagnostic scan line effect */
+.scan-line {
+  position: relative;
+  overflow: hidden;
+}
+
+.scan-line::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(27, 107, 147, 0.1) 50%,
+    transparent 100%
+  );
+  animation: scan 3s ease-in-out infinite;
+}
+
+@keyframes scan {
+  0%, 100% {
+    transform: translateY(-100%);
+  }
+  50% {
+    transform: translateY(100%);
+  }
+}
+
+/* Button reset */
+button {
+  font-family: var(--font-display);
+  border: none;
+  background: none;
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+/* Link reset */
+a {
+  color: var(--primary-main);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--primary-deep);
+}
+
+/* Image optimization */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Accessibility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Loading states */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--bg-secondary) 0%,
+    var(--bg-tertiary) 50%,
+    var(--bg-secondary) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  border-radius: 8px;
+}
+
+/* Responsive breakpoints */
+@media (max-width: 768px) {
+  :root {
+    font-size: 14px;
+  }
+
+  .container {
+    padding: 0 var(--space-2);
+  }
+}

@@ -1,0 +1,960 @@
+/* Analysis Page - Clinical Interface Aesthetic */
+
+.analysis-page {
+  min-height: 100vh;
+  padding: var(--space-4) 0;
+  position: relative;
+}
+
+.analysis-background {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.diagnostic-grid {
+  width: 100%;
+  height: 100%;
+  background-image:
+    linear-gradient(rgba(10, 61, 98, 0.02) 1.5px, transparent 1.5px),
+    linear-gradient(90deg, rgba(10, 61, 98, 0.02) 1.5px, transparent 1.5px);
+  background-size: 60px 60px;
+  animation: gridDrift 30s linear infinite;
+}
+
+@keyframes gridDrift {
+  from { background-position: 0 0; }
+  to { background-position: 60px 60px; }
+}
+
+.analysis-container {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+}
+
+/* Progress Indicator - ECG-inspired */
+.progress-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-8);
+  padding: var(--space-4);
+  background: white;
+  border-radius: 16px;
+  box-shadow: var(--shadow-md);
+}
+
+.progress-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  position: relative;
+}
+
+.step-number {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 1.125rem;
+  background: var(--bg-secondary);
+  color: var(--text-tertiary);
+  border: 2px solid var(--bg-tertiary);
+  transition: all var(--transition-base);
+}
+
+.progress-step.active .step-number {
+  background: linear-gradient(135deg, var(--primary-deep), var(--primary-main));
+  color: white;
+  border-color: var(--primary-main);
+  box-shadow: 0 4px 12px rgba(27, 107, 147, 0.3);
+}
+
+.progress-step span {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.progress-step.active span {
+  color: var(--primary-deep);
+  font-weight: 600;
+}
+
+.progress-line {
+  width: 80px;
+  height: 2px;
+  background: var(--bg-tertiary);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Form Section */
+.form-section {
+  padding: var(--space-6);
+  border-radius: 24px;
+  box-shadow: var(--shadow-xl);
+  min-height: 500px;
+}
+
+.form-section h2 {
+  margin-bottom: var(--space-2);
+  color: var(--text-primary);
+}
+
+.section-description {
+  margin-bottom: var(--space-6);
+  font-size: 1.125rem;
+  color: var(--text-secondary);
+}
+
+/* Upload Area - Retinal Scan Interface */
+.upload-area {
+  border: 2px dashed var(--primary-light);
+  border-radius: 20px;
+  padding: var(--space-6);
+  text-align: center;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  background:
+    radial-gradient(circle at center, rgba(27, 107, 147, 0.03), transparent 70%),
+    var(--bg-primary);
+  position: relative;
+  overflow: hidden;
+}
+
+.upload-area::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 10px,
+      rgba(27, 107, 147, 0.01) 10px,
+      rgba(27, 107, 147, 0.01) 20px
+    );
+  pointer-events: none;
+}
+
+.upload-area:hover {
+  border-color: var(--primary-main);
+  background: rgba(27, 107, 147, 0.05);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Fix Next button spacing in step 1 */
+.form-section > .next-button {
+  margin-top: 2rem;
+}
+
+.upload-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--text-tertiary);
+}
+
+.upload-placeholder svg {
+  color: var(--primary-main);
+  margin-bottom: var(--space-2);
+}
+
+.upload-placeholder h3 {
+  color: var(--text-primary);
+  font-size: 1.5rem;
+}
+
+.file-formats {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  color: var(--text-tertiary);
+}
+
+.image-preview {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.image-preview img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.image-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 61, 98, 0.9);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  opacity: 0;
+  transition: opacity var(--transition-base);
+  color: white;
+}
+
+.image-preview:hover .image-overlay {
+  opacity: 1;
+}
+
+/* Form Grid */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.form-group label {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.form-group label svg {
+  color: var(--primary-main);
+}
+
+.form-group input[type="number"],
+.form-group input[type="text"],
+.form-group input[type="range"] {
+  font-family: var(--font-mono);
+  padding: 0.75rem 1rem;
+  border: 1.5px solid var(--bg-tertiary);
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: all var(--transition-fast);
+  background: white;
+}
+
+.form-group input[type="number"]:focus,
+.form-group input[type="text"]:focus {
+  outline: none;
+  border-color: var(--primary-main);
+  box-shadow: 0 0 0 3px rgba(27, 107, 147, 0.1);
+}
+
+.form-group input[type="range"] {
+  padding: 0;
+  height: 6px;
+  cursor: pointer;
+}
+
+.range-value {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--primary-deep);
+  text-align: center;
+  display: block;
+  margin-top: 0.5rem;
+}
+
+/* Checkboxes - Medical UI Style */
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: var(--space-4) 0;
+  padding: var(--space-3);
+  background: rgba(10, 61, 98, 0.02);
+  border-radius: 12px;
+  border-left: 3px solid var(--primary-main);
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: color var(--transition-fast);
+}
+
+.checkbox-label:hover {
+  color: var(--primary-main);
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: var(--primary-main);
+}
+
+/* Buttons */
+.button-group {
+  display: flex;
+  gap: var(--space-2);
+  margin-top: 14rem;
+}
+
+.next-button,
+.analyze-button {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, var(--primary-deep), var(--primary-main));
+  color: white;
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 600;
+  border-radius: 12px;
+  box-shadow: var(--shadow-md);
+  transition: all var(--transition-base);
+}
+
+.next-button:hover:not(:disabled),
+.analyze-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.next-button:disabled,
+.analyze-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.back-button {
+  padding: 1rem 2rem;
+  background: white;
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  font-weight: 500;
+  border: 2px solid var(--bg-tertiary);
+  border-radius: 12px;
+  transition: all var(--transition-base);
+}
+
+.back-button:hover {
+  border-color: var(--primary-main);
+  color: var(--primary-main);
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Review Section */
+.review-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+.review-grid-full {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.review-card {
+  padding: var(--space-3);
+  background: rgba(10, 61, 98, 0.02);
+  border-radius: 16px;
+  border: 1px solid var(--bg-tertiary);
+}
+
+.review-card h3 {
+  font-size: 1.125rem;
+  margin-bottom: var(--space-3);
+  color: var(--primary-deep);
+}
+
+.review-image {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+
+.review-data {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.review-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem;
+  background: white;
+  border-radius: 8px;
+  font-family: var(--font-body);
+}
+
+.review-item span {
+  color: var(--text-secondary);
+}
+
+.review-item strong {
+  font-family: var(--font-mono);
+  color: var(--text-primary);
+}
+
+.review-item.highlight {
+  background: linear-gradient(135deg, rgba(27, 107, 147, 0.08), rgba(46, 204, 113, 0.08));
+  border: 2px solid var(--primary-main);
+}
+
+.review-item .text-warning {
+  color: #F39C12;
+}
+
+.review-item .text-success {
+  color: #2ECC71;
+}
+
+/* Form Section Headers */
+.form-section-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: var(--space-5) 0 var(--space-3) 0;
+  padding-bottom: var(--space-2);
+  border-bottom: 2px solid var(--border-glass);
+}
+
+.form-section-header h3 {
+  margin: 0;
+  color: var(--primary-deep);
+  font-size: 1.1rem;
+  font-weight: 600;
+  flex: 1;
+}
+
+.form-section-header svg {
+  color: var(--primary-main);
+}
+
+/* Input with Unit Selector */
+.input-with-unit {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.input-with-unit input {
+  flex: 3;  /* Give more space to input fields */
+  min-width: 0;  /* Allow input to shrink if needed */
+}
+
+.unit-selector {
+  flex: 0 0 auto;  /* Don't grow, only take needed space */
+  width: 80px;  /* Fixed width for consistency */
+  padding: 0.75rem 0.5rem;  /* Reduced horizontal padding */
+  border: 1.5px solid var(--bg-tertiary);
+  border-radius: 10px;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;  /* Slightly smaller font */
+  font-weight: 600;
+  color: var(--primary-deep);
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 80px;
+}
+
+.unit-selector:focus {
+  outline: none;
+  border-color: var(--primary-main);
+  box-shadow: 0 0 0 3px rgba(27, 107, 147, 0.1);
+}
+
+.unit-selector:hover {
+  border-color: var(--primary-main);
+}
+
+/* Dual Input (for ft + in) */
+.dual-input {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex: 3;  /* Take more space in parent container */
+}
+
+.dual-input .small-input {
+  flex: 1;
+  min-width: 60px;  /* Ensure minimum width for usability */
+  font-family: var(--font-mono);
+  padding: 0.75rem;
+  border: 1.5px solid var(--bg-tertiary);
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: all var(--transition-fast);
+  background: white;
+}
+
+.dual-input .small-input:focus {
+  outline: none;
+  border-color: var(--primary-main);
+  box-shadow: 0 0 0 3px rgba(27, 107, 147, 0.1);
+}
+
+.input-separator {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-tertiary);
+  font-weight: 600;
+}
+
+/* Large Form */
+.large-form {
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: var(--space-6);
+}
+
+.large-form::-webkit-scrollbar {
+  width: 8px;
+}
+
+.large-form::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+  border-radius: 4px;
+}
+
+.large-form::-webkit-scrollbar-thumb {
+  background: var(--primary-main);
+  border-radius: 4px;
+}
+
+/* Select Input */
+.select-input {
+  width: 100%;
+  padding: 0.875rem 2.5rem 0.875rem 1rem;  /* Adjusted padding to move arrow left */
+  border: 2px solid var(--bg-tertiary);
+  border-radius: 12px;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--text-primary);
+  background: white;
+  background-position: right 0.75rem center;  /* Position arrow closer to left */
+  background-size: 1.25rem;
+  transition: all var(--transition-base);
+  cursor: pointer;
+  appearance: none;  /* Remove default arrow */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 9L2 5h8z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+}
+
+.select-input:focus {
+  outline: none;
+  border-color: var(--primary-main);
+  box-shadow: 0 0 0 3px rgba(27, 107, 147, 0.1);
+}
+
+/* Field Badges */
+.required {
+  color: #E85D75;
+  font-weight: 700;
+  margin-left: 4px;
+}
+
+.optional-badge {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 2px 8px;
+  background: rgba(113, 128, 150, 0.1);
+  color: var(--text-tertiary);
+  border-radius: 6px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.info-tooltip {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 6px;
+  color: var(--primary-main);
+  cursor: help;
+}
+
+/* Field Hints */
+.field-hint {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--text-tertiary);
+  font-style: italic;
+}
+
+/* BMI Display */
+.bmi-display {
+  grid-column: span 2;
+}
+
+.calculated-value {
+  padding: var(--space-3);
+  background: linear-gradient(135deg, rgba(27, 107, 147, 0.05), rgba(46, 204, 113, 0.05));
+  border: 2px solid var(--border-glass);
+  border-radius: 12px;
+  text-align: center;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+}
+
+.bmi-value {
+  font-family: var(--font-mono);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary-deep);
+}
+
+.bmi-category {
+  padding: 4px 12px;
+  background: rgba(27, 107, 147, 0.15);
+  color: var(--primary-deep);
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.placeholder-text {
+  color: var(--text-tertiary);
+  font-style: italic;
+}
+
+/* Modern Checkbox Cards */
+.checkbox-group.modern {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-3);
+}
+
+.checkbox-card {
+  display: flex;
+  align-items: start;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  background: white;
+  border: 2px solid var(--bg-tertiary);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.checkbox-card:hover {
+  border-color: var(--primary-main);
+  box-shadow: var(--shadow-sm);
+}
+
+.checkbox-card input[type="checkbox"] {
+  margin-top: 2px;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: var(--primary-main);
+}
+
+.checkbox-card input[type="checkbox"]:checked ~ .checkbox-content {
+  color: var(--primary-deep);
+}
+
+.checkbox-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.checkbox-title {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.checkbox-subtitle {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+/* Form Note */
+.form-note {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  background: rgba(52, 152, 219, 0.08);
+  border: 1px solid rgba(52, 152, 219, 0.2);
+  border-radius: 12px;
+  margin-top: var(--space-4);
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.form-note svg {
+  color: #3498db;
+  flex-shrink: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .progress-indicator {
+    padding: var(--space-2);
+  }
+
+  .progress-step span {
+    font-size: 0.75rem;
+  }
+
+  .progress-line {
+    width: 40px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .review-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .button-group {
+    flex-direction: column;
+  }
+}
+
+/* Modal Overlay and Content */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.modal-content {
+  position: relative;
+  background: white;
+  border-radius: 20px;
+  max-width: 600px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.retinal-confirm-modal {
+  padding: 2rem;
+}
+
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(0, 0, 0, 0.05);
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #666;
+}
+
+.modal-close:hover {
+  background: rgba(0, 0, 0, 0.1);
+  color: #333;
+}
+
+.modal-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.modal-icon {
+  width: 72px;
+  height: 72px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+  color: white;
+}
+
+.modal-header h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0;
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.preview-container {
+  border-radius: 12px;
+  overflow: hidden;
+  max-width: 300px;
+  margin: 0 auto;
+  border: 2px solid #e5e7eb;
+}
+
+.preview-container img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.warning-box {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  background: #fff3e0;
+  border: 1px solid #ff9800;
+  border-radius: 12px;
+  align-items: flex-start;
+}
+
+.warning-box svg {
+  color: #ff9800;
+  flex-shrink: 0;
+  margin-top: 0.25rem;
+}
+
+.warning-title {
+  font-weight: 700;
+  color: #e65100;
+  margin-bottom: 0.25rem;
+}
+
+.warning-text {
+  color: #666;
+  font-size: 0.95rem;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.info-box {
+  background: #eef2ff;
+  border: 1px solid #c7d2fe;
+  border-radius: 12px;
+  padding: 1rem;
+  font-size: 0.95rem;
+  color: #374151;
+}
+
+.info-box strong {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #1f2937;
+}
+
+.info-box ul {
+  margin: 0;
+  padding-left: 1.5rem;
+  list-style-type: disc;
+}
+
+.info-box li {
+  margin-bottom: 0.25rem;
+  line-height: 1.5;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.btn-cancel,
+.btn-confirm {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.5rem;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-cancel {
+  background: #f3f4f6;
+  color: #374151;
+  border: 1px solid #e5e7eb;
+}
+
+.btn-cancel:hover {
+  background: #e5e7eb;
+  transform: translateY(-1px);
+}
+
+.btn-confirm {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  box-shadow: 0 2px 10px rgba(102, 126, 234, 0.3);
+}
+
+.btn-confirm:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+}
+
+@media (max-width: 480px) {
+  .modal-actions {
+    flex-direction: column;
+  }
+
+  .retinal-confirm-modal {
+    padding: 1.5rem;
+  }
+}
